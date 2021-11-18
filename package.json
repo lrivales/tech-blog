@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "connect-session-sequelize": "^7.1.2",
+    "dotenv": "^10.0.0",
+    "express-handlebars": "^6.0.1",
+    "express-session": "^1.17.2",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.11.0"
+  },
+  "name": "14-tech-blog",
+  "description": "## user story AS A developer who writes about tech I WANT a CMS-style blog site SO THAT I can publish articles, blog posts, and my thoughts and opinions",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lrivales/tech-blog.git"
+  },
+  "author": "lawrence rivales",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lrivales/tech-blog/issues"
+  },
+  "homepage": "https://github.com/lrivales/tech-blog#readme"
+}
