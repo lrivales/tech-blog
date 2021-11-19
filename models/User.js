@@ -1,5 +1,12 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
+const bcrypt = require('bcrypt');
+const saltRounds = 10; //used by bcrypt to hash the password
+
+async function hashPassword(password) {
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    return hashedPassword;
+}
 
 class User extends Model {
     // add class methods here
@@ -35,12 +42,23 @@ User.init(
         }
     },
     {
-    sequelize, // pass the connection instance
-    timestamps: false, // this will not auto-create createdAt and updatedAt columns
-    freezeTableName: true, // this enforces the table name to be equal to the model name
-    underscored: true, // this will use underscore in the column names instead of camel case
-    modelName: 'user' // model name is required
+        sequelize, // pass the connection instance
+        timestamps: false, // this will not auto-create createdAt and updatedAt columns
+        freezeTableName: true, // this enforces the table name to be equal to the model name
+        underscored: true, // this will use underscore in the column names instead of camel case
+        modelName: 'user' // model name is required
     }
 );
+
+User.beforeCreate(async (user) => {
+    const hashedPassword = await hashPassword(user.password);
+    user.password = hashedPassword;
+});
+
+// why is this not working?
+User.beforeUpdate(async (user) => {
+    const hashedPassword = await hashPassword(user.password);
+    user.password = hashedPassword;
+});
 
 module.exports = User;

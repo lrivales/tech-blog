@@ -11,6 +11,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(apiUserRoutes);
 
 // sequelize.sync({force: true}) will recreate the tables
-sequelize.sync({force: false}).then(() => {
+sequelize.sync({force: true}).then(() => {
     app.listen(PORT, () => console.log('Now listening'));
 }); 
