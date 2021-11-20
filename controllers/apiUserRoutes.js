@@ -1,9 +1,14 @@
 const router = require('express').Router();
-const User = require('../models/User');
+const { User, Post } = require('../models');
 
 // get all users
 router.get('/api/users', (req, res) => {
-    User.findAll()
+    User.findAll({
+        include: {
+            model: Post,
+            attributes: ['title']
+        }
+    })
     .then(dbUserData => res.json(dbUserData))
     .catch(err => {
         console.log(err);
@@ -16,6 +21,10 @@ router.get('/api/users/:id', (req, res) => {
     User.findAll({
         where: {
             id: req.params.id
+        },
+        include: {
+            model: Post,
+            attributes: ['title']
         }
     })
     .then(dbUserData => res.json(dbUserData))
@@ -29,7 +38,6 @@ router.get('/api/users/:id', (req, res) => {
 router.post('/api/users', (req, res) => {
     User.create({
         username: req.body.username,
-        email: req.body.email,
         password: req.body.password
     })
     .then(dbUserData => res.json(dbUserData))
@@ -43,7 +51,6 @@ router.post('/api/users', (req, res) => {
 router.put('/api/users/:id', (req, res) => {
     User.update({
         username: req.body.username,
-        email: req.body.email,
         password: req.body.password
     },
     {

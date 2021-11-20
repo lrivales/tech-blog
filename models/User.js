@@ -25,14 +25,6 @@ User.init(
             allowNull: false,
             unique: true
         },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true,
-            validate: {
-                isEmail: true
-            }
-        },
         password: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -53,12 +45,14 @@ User.init(
 User.beforeCreate(async (user) => {
     const hashedPassword = await hashPassword(user.password);
     user.password = hashedPassword;
+    console.log(user);
 });
 
 // why is this not working?
 User.beforeUpdate(async (user) => {
     const hashedPassword = await hashPassword(user.password);
     user.password = hashedPassword;
+    console.log(user);
 });
 
 module.exports = User;
