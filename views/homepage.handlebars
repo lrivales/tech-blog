@@ -1,0 +1,10 @@
+{{!-- <p>{{post}}</p>
+{{#each post}}
+<h1>{{post.title}}</h1>
+{{/each}} --}}
+
+{{#each posts}}
+    <h1>{{this.title}}</h1>
+    <p>{{this.post_text}}</p>
+    <p>Posted by {{this.post.user.username}} on {{this.createdAt}}</p>
+{{/each}}
