@@ -11,7 +11,7 @@ router.get('/api/posts', (req, res) => {
             },
             {
                 model: Comment,
-                attributes: ['comment_text'],
+                attributes: ['comment_text', 'created_at'],
                 include: {
                     model: User,
                     attributes: ['username']
