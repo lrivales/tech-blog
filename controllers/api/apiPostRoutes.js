@@ -1,8 +1,8 @@
 const router = require('express').Router();
-const { User, Post, Comment } = require('../models/');
+const { User, Post, Comment } = require('../../models');
 
 // get all posts
-router.get('/api/posts', (req, res) => {
+router.get('/', (req, res) => {
     Post.findAll({
         include: [
             {
@@ -27,7 +27,7 @@ router.get('/api/posts', (req, res) => {
 });
 
 // get post by id
-router.get('/api/posts/:id', (req, res) => {
+router.get('/:id', (req, res) => {
     Post.findAll({
         where: {
             id: req.params.id
@@ -45,7 +45,7 @@ router.get('/api/posts/:id', (req, res) => {
 });
 
 // add post
-router.post('/api/posts', (req, res) => {
+router.post('/', (req, res) => {
     Post.create({
         title: req.body.title,
         post_text: req.body.post_text,
@@ -59,7 +59,7 @@ router.post('/api/posts', (req, res) => {
 });
 
 // edit post by id
-router.put('/api/posts/:id', (req, res) => {
+router.put('/:id', (req, res) => {
     Post.update(
         {
             title: req.body.title,
@@ -80,7 +80,7 @@ router.put('/api/posts/:id', (req, res) => {
 });
 
 // delete post
-router.delete('/api/posts/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
     Post.destroy({
         where: {
             id: req.params.id

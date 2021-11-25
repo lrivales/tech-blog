@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const { User, Post, Comment } = require('../models/');
+const { User, Post, Comment } = require('../../models');
 
-router.post('/api/comments', (req, res) => {
+router.post('/', (req, res) => {
     Comment.create({
         comment_text: req.body.comment_text,
         post_id: req.body.post_id,

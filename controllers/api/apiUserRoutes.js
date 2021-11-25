@@ -1,8 +1,8 @@
 const router = require('express').Router();
-const { User, Post, Comment } = require('../models');
+const { User, Post, Comment } = require('../../models');
 
 // get all users
-router.get('/api/users', (req, res) => {
+router.get('/', (req, res) => {
     User.findAll({
         include: {
             model: Post,
@@ -17,7 +17,7 @@ router.get('/api/users', (req, res) => {
 });
 
 // get user by id
-router.get('/api/users/:id', (req, res) => {
+router.get('/:id', (req, res) => {
     User.findAll({
         where: {
             id: req.params.id
@@ -35,9 +35,10 @@ router.get('/api/users/:id', (req, res) => {
 });
 
 // add user
-router.post('/api/users', (req, res) => {
+router.post('/', (req, res) => {
     User.create({
         username: req.body.username,
+        email: req.body.email,
         password: req.body.password
     })
     .then(dbUserData => res.json(dbUserData))
@@ -47,13 +48,44 @@ router.post('/api/users', (req, res) => {
     });
 });
 
+router.post('/login', (req, res) => {
+    User.findOne({
+        where: {
+            username: req.body.email
+        }
+    }).then(dbUserData => {
+        if(!dbUserData) {
+            res.status(400).json({ message: 'No email found!'});
+            return;
+        }
+
+        const validPassword = dbUserData.checkPassword(req.body.password);
+        
+        if (!validPassword) {
+            res.status(400).json({ message: 'Incorrect password!' });
+            return;
+        }
+        
+        req.session.save(() => {
+            // declare session variables
+            req.session.user_id = dbUserData.id;
+            req.session.username = dbUserData.username;
+            req.session.loggedIn = true;
+      
+            res.json({ user: dbUserData, message: 'You are now logged in!' });
+        });
+    });
+});
+
 // update user by id
-router.put('/api/users/:id', (req, res) => {
+router.put('/:id', (req, res) => {
     User.update({
         username: req.body.username,
+        email: req.body.email,
         password: req.body.password
     },
     {
+        individualHooks: true,
         where: {
             id: req.params.id
         }
@@ -66,7 +98,7 @@ router.put('/api/users/:id', (req, res) => {
 });
 
 // delete user
-router.delete('/api/users/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
     User.destroy({
         where: {
             id: req.params.id

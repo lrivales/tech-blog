@@ -4,12 +4,17 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10; //used by bcrypt to hash the password
 
 async function hashPassword(password) {
+    console.log(password);
+    console.log(saltRounds);
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     return hashedPassword;
 }
 
 class User extends Model {
     // add class methods here
+    checkPassword(loginPw) {
+        return bcrypt.compareSync(loginPw, this.password);
+    }
 }
 
 User.init(
@@ -24,6 +29,14 @@ User.init(
             type: DataTypes.STRING,
             allowNull: false,
             unique: true
+        },
+        email: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+            validate: {
+                isEmail: true
+            }
         },
         password: {
             type: DataTypes.STRING,
@@ -50,6 +63,7 @@ User.beforeCreate(async (user) => {
 
 // why is this not working?
 User.beforeUpdate(async (user) => {
+    console.log(user)
     const hashedPassword = await hashPassword(user.password);
     user.password = hashedPassword;
     console.log(user);
