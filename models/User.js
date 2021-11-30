@@ -61,7 +61,6 @@ User.beforeCreate(async (user) => {
     console.log(user);
 });
 
-// why is this not working?
 User.beforeUpdate(async (user) => {
     console.log(user)
     const hashedPassword = await hashPassword(user.password);

@@ -23,8 +23,6 @@ router.get('/', async (req, res) => {
     )
     .then(dbPostData => {
         const posts = dbPostData.map(post => post.get({ plain: true }));
-        console.log(posts);
-        console.log(posts[0].comments);
         res.render('homepage', { 
           posts,
           loggedIn: req.session.loggedIn
@@ -36,8 +34,22 @@ router.get('/', async (req, res) => {
     });
 });
 
-router.get('/login', async (req, res) => {
-    
+router.get('/login', (req, res) => {
+    if (req.session.loggedIn) {
+      res.render('/dashboard');
+      return;
+    }
+  
+    res.render('login');
+});
+
+router.get('/dashboard', (req, res) => {
+    if (req.session.loggedIn) {
+      res.render('/dashboard');
+      return;
+    }
+  
+    res.render('login');
 });
 
 module.exports = router;
