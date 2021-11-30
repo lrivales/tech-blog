@@ -36,7 +36,7 @@ router.get('/', async (req, res) => {
 
 router.get('/login', (req, res) => {
     if (req.session.loggedIn) {
-      res.render('/dashboard');
+      res.redirect('/dashboard');
       return;
     }
   
@@ -49,7 +49,7 @@ router.get('/dashboard', (req, res) => {
       return;
     }
   
-    res.render('login');
+    res.redirect('login');
 });
 
 module.exports = router;

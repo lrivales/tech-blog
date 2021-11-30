@@ -19,17 +19,17 @@
         <section class="navbar-section">
             <a href="/" class="navbar-brand mr-2">home</a>
             {{#if loggedIn}}
-            <a href="/dashboard" class="btn btn-link">dashboard</a>
+                <a href="/dashboard" class="btn btn-link">dashboard</a>
             {{else}}
-            <a href="/login" class="btn btn-link">dashboard</a>
+                <a href="/login" class="btn btn-link">dashboard</a>
             {{/if}}
         </section>
         <section class="navbar-section">
             <div class="input-group input-inline">
                 {{#if loggedIn}}
-                <a href="/" class="btn btn-link" id="logoutBtn">logout</a>
+                    <a href="/" class="btn btn-link" id="logoutBtn">logout</a>
                 {{else}}
-                <a href="/login" class="btn btn-link" id="loginBtn">signup/login</a>
+                    <a href="/login" class="btn btn-link" id="loginBtn">signup/login</a>
                 {{/if}}
             </div>
         </section>
@@ -37,5 +37,9 @@
     <main>
         {{{body}}}
     </main>
+
+    {{#if loggedIn}}
+        <script src="/javascript/logout.js"></script>
+    {{/if}}
 </body>
 </html>
