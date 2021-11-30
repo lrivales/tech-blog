@@ -1,11 +1,13 @@
 {{#each posts}}
     <h1>{{this.title}}</h1>
-    <p>Posted by {{author}} on {{this.createdAt}}</p>
+    <p>Posted by {{this.user.username}} on {{this.createdAt}}</p>
     <p>{{this.post_text}}</p>
-    {{#if post_comment_text}}
+    {{#if this.comments.length}}
+    {{#each this.comments}}
     <blockquote>
-        <p>{{this.post_comment_text}}</p>
-        <cite>- {{commenter}} on {{comment_date}}</cite>
+        <p>{{this.comment_text}}</p>
+        <cite>- {{this.user.username}} on {{this.created_at}}</cite>
     </blockquote>
+    {{/each}}
     {{/if}}
 {{/each}}
